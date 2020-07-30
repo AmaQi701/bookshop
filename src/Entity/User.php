@@ -5,10 +5,19 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use  App\Controller\MakeUserController;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get",
+ *          "post" = {
+ *              "controller" = MakeUserController::class
+ *           }
+ *      }
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @see MakeUserController
  */
 class User
 {
@@ -38,6 +47,11 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Users;
 
     public function getId(): ?int
     {
@@ -88,6 +102,18 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUsers(): ?string
+    {
+        return $this->Users;
+    }
+
+    public function setUsers(?string $Users): self
+    {
+        $this->Users = $Users;
 
         return $this;
     }
